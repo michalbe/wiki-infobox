@@ -1,6 +1,6 @@
 var request = require('request');
 var parse = require('./parseWikiText');
-var XRegExp = require('xregexp').XRegExp;
+//var XRegExp = require('xregexp').XRegExp;
 
 var page = "Warsaw";
 var apiURL = "http://en.wikipedia.org/w/api.php?format=json&action=query&prop=revisions&rvprop=content&titles=" + page;
@@ -24,9 +24,6 @@ request.get(apiURL, function(error, data, body){
   var end = parse(content.substr(macz, content.length));
 
   content = content.substr(macz, end);
-
-  var regex = XRegExp("/\[\[(.+?)\]\]/", 'sig');
-
 
   var result = content.match(/\[\[(.+?)\]\]/ig);
 

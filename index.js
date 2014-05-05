@@ -25,12 +25,15 @@ request.get(apiURL, function(error, data, body){
 
   content = content.substr(macz, end);
 
-  var result = content.match(/\[\[(.+?)\]\]/ig);
+  var result = content.match(/\[\[(.+?)\]\]|\{\{(.+?)\}\}/ig);
 
   result.forEach(function(link) {
-    content = content.replace(link, link.replace(/(\|.*)\]/, ']]'));
+    content = content.replace(link, link.replace(/\|/g, ' '));
+    //link = link.replace(/\|/g, ' ');
+    //console.log(link);
   });
-  console.log(content.split('|'));
+
+  console.log(content);
   //console.log(content.substr(macz, content.length);
 
 });

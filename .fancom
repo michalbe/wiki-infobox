@@ -23,7 +23,7 @@
 emoji=1
 
 # Add all the changes made in the repo to the commit, default: no
-#addall=1
+addall=1
 
 # Prefix added to the commit message, default: [REPONAME]
 #prefix="Shit's on fire yo"

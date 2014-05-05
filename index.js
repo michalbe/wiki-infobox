@@ -9,5 +9,6 @@ request.get(apiURL, function(error, data, body){
     return;
   }
 
-  console.log(apiURL);
+  body = JSON.parse(body);
+  console.log(body);
 });

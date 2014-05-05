@@ -33,7 +33,7 @@ request.get(apiURL, function(error, data, body){
     //console.log(link);
   });
 
-  console.log(content);
+  console.log(content.split('|'));
   //console.log(content.substr(macz, content.length);
 
 });

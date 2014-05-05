@@ -15,5 +15,7 @@ request.get(apiURL, function(error, data, body){
   var page = Object.keys(content);
   content = content[page].revisions[0]['*'];
 
-  console.log(content);
+  var regex = /\{\{\s*[Ii]nfobox +.*.*\}\}/s;
+
+  console.log(content.match(regex));
 });

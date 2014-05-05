@@ -9,6 +9,11 @@ request.get(apiURL, function(error, data, body){
     return;
   }
 
-  body = JSON.parse(body);
-  console.log(body);
+  var content = JSON.parse(body);
+  content = content.query.pages;
+
+  var page = Object.keys(content);
+  content = content[page].revisions[0]['*'];
+
+  console.log(content);
 });

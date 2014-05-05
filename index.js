@@ -1,4 +1,6 @@
 var request = require('request');
+var parse = require('./parseWikiText');
+
 //var XRegExp = require('xregexp').XRegExp;
 
 var page = "Warsaw";
@@ -23,5 +25,9 @@ request.get(apiURL, function(error, data, body){
 
   var macz = content.match(startingPointRegex).index;
 
-  console.log(content.substr(macz, content.length);
+  var end = parse(content.substr(macz, content.length));
+
+  console.log(content.substr(macz, end));
+  //console.log(content.substr(macz, content.length);
+
 });

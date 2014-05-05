@@ -25,12 +25,10 @@ request.get(apiURL, function(error, data, body){
 
   content = content.substr(macz, end);
 
-  var regex = XRegExp("'^\*+\s*(\[\['
-                '((?P<wiki_link>[^]]+?)(\|))?'
-                 '(?P<lang_name>.+?)'
-                 '\]\])'", "s");
+  var regex = XRegExp("/\[\[(.+?)\]\]/", 'sig');
 
-  var result = XRegExp.exec(content, regex);
+
+  var result = content.match(/\[\[(.+?)\]\]/ig);
 
 
   console.log(result);

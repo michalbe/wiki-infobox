@@ -27,8 +27,10 @@ request.get(apiURL, function(error, data, body){
 
   var result = content.match(/\[\[(.+?)\]\]/ig);
 
-
-  console.log(result);
+  result.forEach(function(link) {
+    content = content.replace(link, link.replace(/(\|.*)\]/, ']]'));
+  });
+  console.log(content.split('|'));
   //console.log(content.substr(macz, content.length);
 
 });

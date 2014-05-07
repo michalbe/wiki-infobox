@@ -37,11 +37,11 @@ request.get(apiURL, function(error, data, body){
   var output = {};
   content.forEach(function(element) {
     var splited = element.split('=');
-    splited.map(function(el){
+    splited = splited.map(function(el) {
       return el.trim();
     });
 
-    output[splited[0]] = splited[1];
+    output[splited[0]] = splited[1].replace(new RegExp(separator, 'g'), '|');
   });
 
   console.log(output);

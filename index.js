@@ -54,21 +54,26 @@ request.get(apiURL, function(error, data, body){
 });
 
 var linkToObject = function(link) {
-  var match = link.match(/\[\[(.*)\]\]/);
-  if (match) {
+  //var match = link.match(/\[\[(.*)\]\]/);
+  var matches = [];
+  link.replace(/\[\[(.*?)\]\]/g, function(g0,g1){ console.log(g1);matches.push(g1);})
+  if (matches.length > 0) {
+    var results = [];
     var obj = {
       type: "link"
     };
-    match[1] = match[1].split('|');
-    if (match[1].length > 1) {
-      obj.text = match[1][1];
-      obj.url = wikiURL + match[1][0];
-    } else {
-      obj.text = match[1][0];
-      obj.url = wikiURL + match[1][0];
-    }
-
-    return obj;
+    matches.forEach(function(matchElement) {
+      matchElement = matchElement.split('|');
+      if (matchElement.length > 1) {
+        obj.text = matchElement[1];
+        obj.url = wikiURL + matchElement[0];
+      } else {
+        obj.text = matchElement[0];
+        obj.url = wikiURL + matchElement[0];
+      }
+      results.push(obj);
+    });
+    return results;
 
   } else {
     return link;

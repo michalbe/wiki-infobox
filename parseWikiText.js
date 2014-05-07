@@ -10,7 +10,7 @@ var parse = function(text) {
 
     if (brackets === 0 && i > 0) {
       console.log('block ended after ', i, ' characters');
-      return i;
+      return i-1;
     }
   }
 }

@@ -1,9 +1,10 @@
 var request = require('request');
 var parse = require('./parseWikiText');
-var separator = "0000000000";
+var separator = Math.random().toString(36).slice(2).toUpperCase();
 
-var page = "Warsaw";
+var page = "Breaking_Bad";
 var apiURL = "http://en.wikipedia.org/w/api.php?format=json&action=query&prop=revisions&rvprop=content&titles=" + page;
+var wikiURL = "http://en.wikipedia.org/wiki/";
 
 request.get(apiURL, function(error, data, body){
   if (error) {
@@ -41,15 +42,35 @@ request.get(apiURL, function(error, data, body){
       return el.trim();
     });
 
-    console.log(splited[1]);
-    splited[1] = splited[1].replace(new RegExp(separator, 'g'), '|');
-    console.log(splited[1]);
-
-    output[splited[0]] = splited[1].replace(new RegExp(separator, 'g'), '|');
+    output[splited[0]] = linkToObject(splited[1].replace(new RegExp(separator, 'g'), '|'));
   });
 
+
+  console.log(output);
   //console.log(output);
 //console.log(content);
   //console.log(content.substr(macz, content.length);
 
 });
+
+var linkToObject = function(link) {
+  var match = link.match(/\[\[(.*)\]\]/);
+  if (match) {
+    var obj = {
+      type: "link"
+    };
+    match[1] = match[1].split('|');
+    if (match[1].length > 1) {
+      obj.text = match[1][1];
+      obj.url = wikiURL + match[1][0];
+    } else {
+      obj.text = match[1][0];
+      obj.url = wikiURL + match[1][0];
+    }
+
+    return obj;
+
+  } else {
+    return link;
+  }
+}

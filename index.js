@@ -1,6 +1,6 @@
 var request = require('request');
 var parse = require('./parseWikiText');
-//var XRegExp = require('xregexp').XRegExp;
+var separator = "<(022YelonkY)>";
 
 var page = "Warsaw";
 var apiURL = "http://en.wikipedia.org/w/api.php?format=json&action=query&prop=revisions&rvprop=content&titles=" + page;
@@ -28,12 +28,19 @@ request.get(apiURL, function(error, data, body){
   var result = content.match(/\[\[(.+?)\]\]|\{\{(.+?)\}\}/ig);
 
   result.forEach(function(link) {
-    content = content.replace(link, link.replace(/\|/g, ' '));
-    //link = link.replace(/\|/g, ' ');
-    //console.log(link);
+    content = content.replace(link, link.replace(/\|/g, separator));
   });
 
-  console.log(content.split('|'));
+  content = content.split('|');
+  content.shift();
+
+  var output = {};
+  content.forEach(function(element) {
+    var splited = element.split('=');
+    
+    console.log(element);
+  });
+//console.log(content);
   //console.log(content.substr(macz, content.length);
 
 });

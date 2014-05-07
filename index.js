@@ -37,9 +37,14 @@ request.get(apiURL, function(error, data, body){
   var output = {};
   content.forEach(function(element) {
     var splited = element.split('=');
-    
-    console.log(element);
+    splited.map(function(el){
+      return el.trim();
+    });
+
+    output[splited[0]] = splited[1];
   });
+
+  console.log(output);
 //console.log(content);
   //console.log(content.substr(macz, content.length);
 

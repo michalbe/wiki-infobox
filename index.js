@@ -1,7 +1,7 @@
 var request = require('request');
 var separator = Math.random().toString(36).slice(2).toUpperCase();
 
-var page = "Kramatorsk_standoff";
+var page = "Warsaw";
 var apiURL = "http://en.wikipedia.org/w/api.php?format=json&action=query&prop=revisions&rvprop=content&titles=" + page;
 var wikiURL = "http://en.wikipedia.org/wiki/";
 
@@ -45,7 +45,9 @@ request.get(apiURL, function(error, data, body){
     // not right (think of it as of additional coma at the end of the array)
     // I know it's not the best way to fix it, but it's the fastest.
     try {
-      output[splited[0]] = linkToObject(splited[1].replace(new RegExp(separator, 'g'), '|'));
+
+      output[splited[0]] = stringToObject(splited[0], splited[1].replace(new RegExp(separator, 'g'), '|'));
+
     } catch(e) {
       console.log('Error, could not parse: ', element);
     }
@@ -57,10 +59,10 @@ request.get(apiURL, function(error, data, body){
 
 });
 
-var linkToObject = function(link) {
+var stringToObject = function(name, value) {
   //var match = link.match(/\[\[(.*)\]\]/);
   var matches = [];
-  link.replace(/\[\[(.*?)\]\]/g, function(g0,g1){matches.push(g1);})
+  value.replace(/\[\[(.*?)\]\]/g, function(g0,g1){matches.push(g1);})
   if (matches.length > 0) {
     var results = [];
     var obj = {
@@ -69,6 +71,10 @@ var linkToObject = function(link) {
     matches.forEach(function(matchElement) {
       obj = {
         type: "link"
+      }
+
+      if (matchElement.indexOf('File:') > -1) {
+        obj.type = "image";
       }
       matchElement = matchElement.split('|');
       if (matchElement.length > 1) {
@@ -87,7 +93,7 @@ var linkToObject = function(link) {
     return results;
 
   } else {
-    return link;
+    return value;
   }
 }
 

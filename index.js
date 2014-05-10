@@ -2,7 +2,7 @@ var request = require('request');
 var parse = require('./parseWikiText');
 var separator = Math.random().toString(36).slice(2).toUpperCase();
 
-var page = "Breaking_Bad";
+var page = "Californication_(TV_series)";
 var apiURL = "http://en.wikipedia.org/w/api.php?format=json&action=query&prop=revisions&rvprop=content&titles=" + page;
 var wikiURL = "http://en.wikipedia.org/wiki/";
 
@@ -26,11 +26,13 @@ request.get(apiURL, function(error, data, body){
 
   content = content.substr(macz, end);
 
+  content = content.replace(/\n/g, ' ');
   var result = content.match(/\[\[(.+?)\]\]|\{\{(.+?)\}\}/ig);
 
   result.forEach(function(link) {
     content = content.replace(link, link.replace(/\|/g, separator));
   });
+
 
   content = content.split('|');
   content.shift();
@@ -46,10 +48,7 @@ request.get(apiURL, function(error, data, body){
   });
 
 
-  console.log(output.num_episodes);
-  //console.log(output);
-//console.log(content);
-  //console.log(content.substr(macz, content.length);
+  console.log(output);
 
 });
 

@@ -1,8 +1,7 @@
 var request = require('request');
-var parse = require('./parseWikiText');
 var separator = Math.random().toString(36).slice(2).toUpperCase();
 
-var page = "Californication_(TV_series)";
+var page = "Kramatorsk_standoff";
 var apiURL = "http://en.wikipedia.org/w/api.php?format=json&action=query&prop=revisions&rvprop=content&titles=" + page;
 var wikiURL = "http://en.wikipedia.org/wiki/";
 
@@ -24,7 +23,7 @@ request.get(apiURL, function(error, data, body){
 
   var end = parse(content.substr(macz, content.length));
 
-  content = content.substr(macz, end);
+  content = content.substr(macz+2, end);
 
   content = content.replace(/\n/g, ' ');
   var result = content.match(/\[\[(.+?)\]\]|\{\{(.+?)\}\}/ig);
@@ -33,10 +32,8 @@ request.get(apiURL, function(error, data, body){
     content = content.replace(link, link.replace(/\|/g, separator));
   });
 
-
   content = content.split('|');
   content.shift();
-
   var output = {};
   content.forEach(function(element) {
     var splited = element.split('=');
@@ -44,7 +41,15 @@ request.get(apiURL, function(error, data, body){
       return el.trim();
     });
 
-    output[splited[0]] = linkToObject(splited[1].replace(new RegExp(separator, 'g'), '|'));
+    // This catch is needed because sometimes Infobox ends with |}} what is
+    // not right (think of it as of additional coma at the end of the array)
+    // I know it's not the best way to fix it, but it's the fastest.
+    try {
+      output[splited[0]] = linkToObject(splited[1].replace(new RegExp(separator, 'g'), '|'));
+    } catch(e) {
+      console.log('Error, could not parse: ', element);
+    }
+
   });
 
 
@@ -75,9 +80,29 @@ var linkToObject = function(link) {
       }
       results.push(obj);
     });
+
+    if (results.length === 1) {
+      results = results.pop();
+    }
     return results;
 
   } else {
     return link;
+  }
+}
+
+var parse = function(text) {
+  var brackets = 0;
+
+  for (var i=0, l=text.length; i<l; i++) {
+    if (text.charAt(i) === '{') {
+      brackets++;
+    } else if (text.charAt(i) === '}') {
+      brackets--;
+    }
+
+    if (brackets === 0 && i > 0) {
+      return i-1;
+    }
   }
 }

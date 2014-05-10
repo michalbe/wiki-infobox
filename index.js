@@ -56,13 +56,16 @@ request.get(apiURL, function(error, data, body){
 var linkToObject = function(link) {
   //var match = link.match(/\[\[(.*)\]\]/);
   var matches = [];
-  link.replace(/\[\[(.*?)\]\]/g, function(g0,g1){ console.log(g1);matches.push(g1);})
+  link.replace(/\[\[(.*?)\]\]/g, function(g0,g1){matches.push(g1);})
   if (matches.length > 0) {
     var results = [];
     var obj = {
       type: "link"
     };
     matches.forEach(function(matchElement) {
+      obj = {
+        type: "link"
+      }
       matchElement = matchElement.split('|');
       if (matchElement.length > 1) {
         obj.text = matchElement[1];

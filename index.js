@@ -1,7 +1,7 @@
 var request = require('request');
 var separator = Math.random().toString(36).slice(2).toUpperCase();
 
-var page = "Warsaw";
+var page = "The_Wall_Street_Journal";
 var apiURL = "http://en.wikipedia.org/w/api.php?format=json&action=query&prop=revisions&rvprop=content&titles=" + page;
 var wikiURL = "http://en.wikipedia.org/wiki/";
 
@@ -73,7 +73,7 @@ var stringToObject = function(name, value) {
         type: "link"
       }
 
-      if (matchElement.indexOf('File:') > -1) {
+      if (matchElement.indexOf('File:') > -1 || matchElement.indexOf('Image:') > -1) {
         obj.type = "image";
       }
       matchElement = matchElement.split('|');

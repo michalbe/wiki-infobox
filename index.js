@@ -46,7 +46,7 @@ request.get(apiURL, function(error, data, body){
   });
 
 
-  console.log(output);
+  console.log(output.num_episodes);
   //console.log(output);
 //console.log(content);
   //console.log(content.substr(macz, content.length);

@@ -1,6 +1,5 @@
 var request = require('request');
 var parse = require('./parseWikiText');
-
 //var XRegExp = require('xregexp').XRegExp;
 
 var page = "Warsaw";
@@ -18,16 +17,20 @@ request.get(apiURL, function(error, data, body){
   var page = Object.keys(content);
   content = content[page].revisions[0]['*'];
 
-  //var regex = XRegExp("\{\{\s*[Ii]nfobox +.*.*\}\}", "s");
-  //var data = XRegExp.exec(content, regex);
-
   var startingPointRegex = /\{\{\s*[Ii]nfobox/;
 
   var macz = content.match(startingPointRegex).index;
 
   var end = parse(content.substr(macz, content.length));
 
-  console.log(content.substr(macz, end));
+  content = content.substr(macz, end);
+
+  var result = content.match(/\[\[(.+?)\]\]/ig);
+
+  result.forEach(function(link) {
+    content = content.replace(link, link.replace(/(\|.*)\]/, ']]'));
+  });
+  console.log(content.split('|'));
   //console.log(content.substr(macz, content.length);
 
 });

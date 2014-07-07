@@ -1,5 +1,10 @@
 {
   "name": "wiki-infobox",
   "version": "0.0.1",
-  "author": "Michal Budzynski<michal@virtualdesign.pl>"
+  "author": "Michal Budzynski<michal@virtualdesign.pl>",
+  "repository": "https://github.com/michalbe/wiki-infobox",
+  "dependencies": {
+    "request": "~2.36.0",
+    "xregexp": "~2.0.0"
+  }
 }

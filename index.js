@@ -1,7 +1,7 @@
-var request = require('request');
 var separator = require('simple-random-id')();
 
-var getInfobox = function(page, language, cb) {
+module.exports = function(page, language, cb, options) {
+  var request = options.request || require('request');
   var apiURL = 'http://'+ language + '.wikipedia.org/w/api.php?format' +
                '=json&action=query&prop=revisions&rvprop=content&titles=' +
                page;
@@ -129,7 +129,7 @@ var getInfobox = function(page, language, cb) {
           // If not, its almost always a link
           obj = {
             type: 'link'
-          }
+          };
         }
 
         // Sometimes links have names also, I mean, this text that is displayed
@@ -158,7 +158,7 @@ var getInfobox = function(page, language, cb) {
     } else {
       return value;
     }
-  }
+  };
 
   // This is stupid brackets counting, I don't think it needs any explanation
   var parse = function(text) {
@@ -175,14 +175,5 @@ var getInfobox = function(page, language, cb) {
         return i-1;
       }
     }
-  }
-}
-
-getInfobox('Warsaw', 'en', function(error, result) {
-  if (error) {
-    console.log('Error');
-    return;
-  }
-
-  console.log(result);
-});
+  };
+};

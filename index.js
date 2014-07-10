@@ -84,13 +84,16 @@ var getInfobox = function(page, language, cb) {
         return el.trim();
       });
 
-      // This catch is needed because sometimes Infobox ends with |}} what is
+      // This trycatch is needed because sometimes Infobox ends with |}} what is
       // not right (think of it as of additional coma at the end of the array)
       // I know it's not the best way to fix it, but it's the fastest.
       try {
-
+        // Replace previously changed '|' chars again and parse final string
         output[splited[0]] = stringToObject(
-          splited[0],
+          splited[0], // I put this in here because maybe in the future we will
+                      // want to determine way of parsing the string based on
+                      // type, etc. 'image' field is sometimes just and url,
+                      // not a proper wikipedia image ([[File:file_patch.jpg]])
           splited[1].replace(new RegExp(separator, 'g'), '|')
         );
 
@@ -100,6 +103,7 @@ var getInfobox = function(page, language, cb) {
 
     });
 
+    // If
     cb(null, output);
 
   });

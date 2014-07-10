@@ -103,15 +103,16 @@ var getInfobox = function(page, language, cb) {
 
     });
 
-    // If
+    // return the output to callback
     cb(null, output);
 
   });
 
   var stringToObject = function(name, value) {
-    //var match = link.match(/\[\[(.*)\]\]/);
+    // We can find a lot of objects in one infobox field, so let's grab all of
+    // them using simple trick with .replace() callback
     var matches = [];
-    value.replace(/\[\[(.*?)\]\]/g, function(g0,g1){matches.push(g1);})
+    value.replace(/\[\[(.*?)\]\]/g, function(g0,g1){matches.push(g1);});
     if (matches.length > 0) {
       var results = [];
       var obj = {

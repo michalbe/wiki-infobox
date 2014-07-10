@@ -119,13 +119,20 @@ var getInfobox = function(page, language, cb) {
         type: 'link'
       };
       matches.forEach(function(matchElement) {
-        obj = {
-          type: 'link'
+        // If it's an image, set the type to image
+        if (
+          matchElement.indexOf('File:') > -1 ||
+          matchElement.indexOf('Image:') > -1
+        ) {
+          obj.type = 'image';
+        } else {
+          // If not, its almost always a link
+          obj = {
+            type: 'link'
+          }
         }
 
-        if (matchElement.indexOf('File:') > -1 || matchElement.indexOf('Image:') > -1) {
-          obj.type = 'image';
-        }
+
         matchElement = matchElement.split('|');
         if (matchElement.length > 1) {
           obj.text = matchElement[1];

@@ -51,13 +51,11 @@ var getInfobox = function(page, language, cb) {
 
         output[splited[0]] = stringToObject(splited[0], splited[1].replace(new RegExp(separator, 'g'), '|'));
 
-      } catch(e) {
-        console.log('Error, could not parse: ', element);
-        console.log('Error: ', e);
+      } catch(error) {
+        cb(error);
       }
 
     });
-
 
     cb(null, output);
 

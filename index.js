@@ -14,6 +14,7 @@ var getInfobox = function(page, language, cb) {
       return;
     }
 
+    // Create a JSON object from the response
     var content = JSON.parse(body);
     content = content.query.pages;
 
@@ -49,7 +50,10 @@ var getInfobox = function(page, language, cb) {
       // I know it's not the best way to fix it, but it's the fastest.
       try {
 
-        output[splited[0]] = stringToObject(splited[0], splited[1].replace(new RegExp(separator, 'g'), '|'));
+        output[splited[0]] = stringToObject(
+          splited[0],
+          splited[1].replace(new RegExp(separator, 'g'), '|')
+        );
 
       } catch(error) {
         cb(error);
@@ -116,7 +120,7 @@ var getInfobox = function(page, language, cb) {
   }
 }
 
-getInfobox('Warsaw', 'en', function(error, result){
+getInfobox('Warsaw', 'en', function(error, result) {
   if (error) {
     console.log('Error');
     return;

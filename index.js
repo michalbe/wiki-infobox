@@ -132,7 +132,12 @@ var getInfobox = function(page, language, cb) {
           }
         }
 
-
+        // Sometimes links have names also, I mean, this text that is displayed
+        // on the site and redirect you to the given page, and is different than
+        // the name of the Wiki page, for instance
+        // [[Central European Summer Time|CEST]] will display CEST, but clicking
+        // on it will redirect to Central European Summer Time page. We need all
+        // the information in out object
         matchElement = matchElement.split('|');
         if (matchElement.length > 1) {
           obj.text = matchElement[1];
@@ -144,6 +149,7 @@ var getInfobox = function(page, language, cb) {
         results.push(obj);
       });
 
+      // sometimes field is just a text, without any fireworks :(
       if (results.length === 1) {
         results = results.pop();
       }
@@ -154,6 +160,7 @@ var getInfobox = function(page, language, cb) {
     }
   }
 
+  // This is stupid brackets counting, I don't think it needs any explanation
   var parse = function(text) {
     var brackets = 0;
 

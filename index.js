@@ -1,3 +1,5 @@
+'use strict';
+
 var separator = require('simple-random-id')();
 
 module.exports = function(page, language, cb, options) {

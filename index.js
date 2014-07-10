@@ -72,9 +72,14 @@ var getInfobox = function(page, language, cb) {
     // Throw out the first element (it's something like '{{ Infobox', so has
     // no value for us)
     content.shift();
+
     var output = {};
+    // Iterate thru all the fields of the infobox
     content.forEach(function(element) {
+      // Every field is a key=value pair, separated by equal sign.
       var splited = element.split('=');
+      // Some of them have a lot of white characters what makes no sense at all,
+      // so let's trim them.
       splited = splited.map(function(el) {
         return el.trim();
       });

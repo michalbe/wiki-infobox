@@ -2,8 +2,9 @@ var request = require('request');
 var separator = require('simple-random-id')();
 
 var page = "The_Wall_Street_Journal";
-var apiURL = "http://en.wikipedia.org/w/api.php?format=json&action=query&prop=revisions&rvprop=content&titles=" + page;
-var wikiURL = "http://en.wikipedia.org/wiki/";
+var language = "en";
+var apiURL = "http://"+ language + ".wikipedia.org/w/api.php?format=json&action=query&prop=revisions&rvprop=content&titles=" + page;
+var wikiURL = "http://" + language +".wikipedia.org/wiki/";
 
 request.get(apiURL, function(error, data, body){
   if (error) {

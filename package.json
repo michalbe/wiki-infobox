@@ -4,6 +4,7 @@
   "author": "Michal Budzynski<michal@virtualdesign.pl>",
   "repository": "https://github.com/michalbe/wiki-infobox",
   "dependencies": {
-    "request": "~2.36.0"
+    "request": "~2.36.0",
+    "simple-random-id": "^1.0.1"
   }
 }

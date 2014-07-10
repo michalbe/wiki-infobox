@@ -1,5 +1,5 @@
 var request = require('request');
-var separator = Math.random().toString(36).slice(2).toUpperCase();
+var separator = require('simple-random-id')();
 
 var page = "The_Wall_Street_Journal";
 var apiURL = "http://en.wikipedia.org/w/api.php?format=json&action=query&prop=revisions&rvprop=content&titles=" + page;

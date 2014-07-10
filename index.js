@@ -68,6 +68,9 @@ var getInfobox = function(page, language, cb) {
     // chars (what's the english name for this again?) are separators between
     // fields of the infobox, not special characters in links or templates.
     content = content.split('|');
+
+    // Throw out the first element (it's something like '{{ Infobox', so has
+    // no value for us)
     content.shift();
     var output = {};
     content.forEach(function(element) {

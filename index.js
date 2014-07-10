@@ -16,18 +16,37 @@ var getInfobox = function(page, language, cb) {
 
     // Create a JSON object from the response
     var content = JSON.parse(body);
-    content = content.query.pages;
 
+    // The API answers with quite complex JSON structure, similar to this:
+    // {
+    //   "query" : {
+    //     "pages" : {
+    //       "32908": {
+    //         "revisions": [
+    //           "*": CONTENT OF THE PAGE
+    // ]}}}}
+    //
+    // So that is how we will get the content
+    content = content.query.pages;
     var page = Object.keys(content);
     content = content[page].revisions[0]['*'];
 
+    // Let's find the beginning of our infobox, it will start with two
+    // mustache brackets (I don't know proper english workd for this),
+    // unlimited number of spaces and 'infobox' label (can also start with
+    // uppercase char).
     var startingPointRegex = /\{\{\s*[Ii]nfobox/;
 
-    var macz = content.match(startingPointRegex).index;
+    // What is the position of the string we are looking for
+    // in the whole document?
+    var start = content.match(startingPointRegex).index;
+    // And how big is the block. Since we cannot simply match brackets in
+    // JS using RegExp, I wrote small `parse` function that iterates throught
+    // the document and counts opened and closed brackets. Dumm as hell but
+    // works and performance is really good
+    var end = parse(content.substr(start, content.length));
 
-    var end = parse(content.substr(macz, content.length));
-
-    content = content.substr(macz+2, end);
+    content = content.substr(start+2, end);
 
     content = content.replace(/\n/g, ' ');
     var result = content.match(/\[\[(.+?)\]\]|\{\{(.+?)\}\}/ig);

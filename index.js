@@ -46,15 +46,27 @@ var getInfobox = function(page, language, cb) {
     // works and performance is really good
     var end = parse(content.substr(start, content.length));
 
+    // And we truncate the string exactly where we need
     content = content.substr(start+2, end);
 
+    // This part is very stupid, but I had no time to figure out something
+    // smarter.
+    // Remove all the new lines, data in the infobox is separated with '|'
+    // anyway, so it doesn't change anything.
     content = content.replace(/\n/g, ' ');
+
+    // Now, find all the links ([[IMMA LINK]]) and templates ({{LIKE ME}})
     var result = content.match(/\[\[(.+?)\]\]|\{\{(.+?)\}\}/ig);
 
+    // Iterate thru all of them
     result.forEach(function(link) {
+      // And replace each '|' for our custom, random separator string
       content = content.replace(link, link.replace(/\|/g, separator));
     });
 
+    // Because of the stupid thing we did before, we are sure that all the '|'
+    // chars (what's the english name for this again?) are separators between
+    // fields of the infobox, not special characters in links or templates.
     content = content.split('|');
     content.shift();
     var output = {};

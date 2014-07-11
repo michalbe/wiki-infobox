@@ -8,7 +8,8 @@
     "simple-random-id": "^1.0.1"
   },
   "scripts": {
-    "lint": "node node_modules/jshint/bin/jshint ."
+    "lint": "node node_modules/jshint/bin/jshint .",
+    "test": "node tests/wiki-infobox_tests.js"
   },
   "devDependencies": {
     "jshint": "^2.5.2",

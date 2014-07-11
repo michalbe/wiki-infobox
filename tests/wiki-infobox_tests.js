@@ -1,23 +1,26 @@
 'use strict';
 
-var nock = require('nock');
 var wikiInfobox = require('../index');
+
+var nock = require('nock');
+var assert = require('assert');
 
 var language = 'en';
 var page = 'Bemowo';
 
-nock('http://'+ language + '.wikipedia.org')
-.get(
-  'w/api.php?' +
-  'format=json&' +
-  'action=query&' +
-  'prop=revisions&' +
-  'rvprop=content&' +
-  'titles='+page
-).reply(200, 'Hello from Google!');
+var initMock = function(body) {
+  nock('http://'+ language + '.wikipedia.org')
+  .get(
+    '/w/api.php?' +
+    'format=json&' +
+    'action=query&' +
+    'prop=revisions&' +
+    'rvprop=content&' +
+    'titles='+page
+  ).reply(200, body);
+}
 
-
-wikiInfobox('Bemowo','en', function(err, data){
-  console.log(data);
-  return 8;
+initMock(require('./mocks/1.js'));
+wikiInfobox('Bemowo','en', function(err, data) {
+  assert.deepEqual(data, {name: 'Bemowo'});
 });

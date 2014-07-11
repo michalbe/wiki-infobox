@@ -10,7 +10,7 @@ module.exports = function(page, language, cb, options) {
 
   var wikiURL = 'http://' + language +'.wikipedia.org/wiki/';
 
-  request.get(apiURL, function(error, data, body){
+  request.get(apiURL, function(error, data, body) {
     if (error) {
       cb(error);
       return;
@@ -60,11 +60,13 @@ module.exports = function(page, language, cb, options) {
     // Now, find all the links ([[IMMA LINK]]) and templates ({{LIKE ME}})
     var result = content.match(/\[\[(.+?)\]\]|\{\{(.+?)\}\}/ig);
 
-    // Iterate thru all of them
-    result.forEach(function(link) {
-      // And replace each '|' for our custom, random separator string
-      content = content.replace(link, link.replace(/\|/g, separator));
-    });
+    // Iterate thru all of them if any
+    if (typeof results !== 'undefined') {
+      result.forEach(function(link) {
+        // And replace each '|' for our custom, random separator string
+        content = content.replace(link, link.replace(/\|/g, separator));
+      });
+    }
 
     // Because of the stupid thing we did before, we are sure that all the '|'
     // chars (what's the english name for this again?) are separators between
@@ -80,6 +82,7 @@ module.exports = function(page, language, cb, options) {
     content.forEach(function(element) {
       // Every field is a key=value pair, separated by equal sign.
       var splited = element.split('=');
+
       // Some of them have a lot of white characters what makes no sense at all,
       // so let's trim them.
       splited = splited.map(function(el) {
@@ -99,8 +102,8 @@ module.exports = function(page, language, cb, options) {
           splited[1].replace(new RegExp(separator, 'g'), '|')
         );
 
-      } catch(error) {
-        cb(error);
+      } catch(e) {
+        // Let's sit quiet, it's probably the thing described above
       }
 
     });

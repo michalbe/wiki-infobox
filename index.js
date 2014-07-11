@@ -61,7 +61,7 @@ module.exports = function(page, language, cb, options) {
     var result = content.match(/\[\[(.+?)\]\]|\{\{(.+?)\}\}/ig);
 
     // Iterate thru all of them if any
-    if (typeof results !== 'undefined') {
+    if (result !== null) {
       result.forEach(function(link) {
         // And replace each '|' for our custom, random separator string
         content = content.replace(link, link.replace(/\|/g, separator));

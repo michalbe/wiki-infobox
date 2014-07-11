@@ -20,8 +20,128 @@ var initMock = function(body) {
   ).reply(200, body);
 };
 
-console.log('Simple infobox with one string field');
+// Simple infobox with one string field
 initMock(require('./mocks/1.js'));
-wikiInfobox('Bemowo','en', function(err, data) {
+wikiInfobox(page, language, function(err, data) {
   assert.deepEqual(data, {name: 'Bemowo'});
+});
+
+// Simple infobox with one link field
+initMock(require('./mocks/2.js'));
+wikiInfobox(page, language, function(err, data) {
+  assert.deepEqual(
+    data,
+    { 'settlement_type':
+      { 'type' : 'link',
+        'text' : 'Warsaw',
+        'url' : 'http://en.wikipedia.org/wiki/Warsaw'
+      }
+    }
+  );
+});
+
+// Simple infobox with one link field with alias
+initMock(require('./mocks/3.js'));
+wikiInfobox(page, language, function(err, data) {
+  assert.deepEqual(
+    data,
+    { 'subdivision_type1' :
+      { 'type' : 'link',
+        'text' : 'Voivodeship',
+        'url' : 'http://en.wikipedia.org/wiki/Voivodeships of Poland'
+      }
+    }
+  );
+});
+
+// Infobox with multiple links in one field
+initMock(require('./mocks/4.js'));
+wikiInfobox(page, language, function(err, data) {
+  assert.deepEqual(
+    data,
+    { 'country':
+      [
+        { 'type' : 'link',
+          'text' : 'Warsaw',
+          'url' : 'http://en.wikipedia.org/wiki/Warsaw'
+        },
+        { 'type' : 'link',
+          'text':'Poland',
+          'url' : 'http://en.wikipedia.org/wiki/Poland'
+        }
+      ]
+    }
+  );
+});
+
+// Infobox with multiple links (simple & with aliases) in one field
+initMock(require('./mocks/5.js'));
+wikiInfobox(page, language, function(err, data) {
+  assert.deepEqual(
+    data,
+    { 'languages':
+      [
+        { 'type' : 'link',
+          'text' : 'Official language',
+          'url' : 'http://en.wikipedia.org/wiki/Official language'
+        },
+        { 'type' : 'link',
+          'text':'Polish',
+          'url' : 'http://en.wikipedia.org/wiki/Polish language'
+        }
+      ]
+    }
+  );
+});
+
+// Infobox with one image field
+initMock(require('./mocks/6.js'));
+wikiInfobox(page, language, function(err, data) {
+  assert.deepEqual(
+    data,
+    { 'map':
+      { 'type' : 'image',
+        'text' : 'frameless',
+        'url' : 'http://en.wikipedia.org/wiki/File:Metro w Warszawie linia.svg'
+      }
+    }
+  );
+});
+
+// Infobox with one text field, multiple links in one field, link with
+// alias & image
+initMock(require('./mocks/7.js'));
+wikiInfobox(page, language, function(err, data) {
+  assert.deepEqual(
+    data,
+    { owner: 'City of Warsaw',
+      locale: [
+        {
+          type: 'link',
+          text: 'Warsaw',
+          url: 'http://en.wikipedia.org/wiki/Warsaw'
+        },
+        {
+          type: 'link',
+          text: 'Poland',
+          url: 'http://en.wikipedia.org/wiki/Poland'
+        }
+      ],
+      transit_type: {
+        type: 'link',
+        text: 'Rapid',
+        url: 'http://en.wikipedia.org/wiki/Rapid transit'
+      },
+      map: {
+        type: 'image',
+        text: 'frameless',
+        url: 'http://en.wikipedia.org/wiki/File:Metro w Warszawie linia.svg'
+      },
+      logo: {
+        type: 'image',
+        text: 'Image:Warsaw Metro logo.svg',
+        url: 'http://en.wikipedia.org/wiki/Image:Warsaw Metro logo.svg'
+      }
+    }
+  );
 });

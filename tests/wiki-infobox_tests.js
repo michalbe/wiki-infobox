@@ -18,7 +18,7 @@ var initMock = function(body) {
     'rvprop=content&' +
     'titles='+page
   ).reply(200, body);
-}
+};
 
 initMock(require('./mocks/1.js'));
 wikiInfobox('Bemowo','en', function(err, data) {

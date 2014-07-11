@@ -20,7 +20,7 @@ var initMock = function(body) {
   ).reply(200, body);
 };
 
-// Simple infobox with one, string element
+console.log('Simple infobox with one string field');
 initMock(require('./mocks/1.js'));
 wikiInfobox('Bemowo','en', function(err, data) {
   assert.deepEqual(data, {name: 'Bemowo'});

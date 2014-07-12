@@ -115,29 +115,33 @@ wikiInfobox(page, language, function(err, data) {
   assert.deepEqual(
     data,
     { owner: 'City of Warsaw',
-      locale:
-        [
-          {
-            type: 'link',
-            text: 'Warsaw',
-            url: 'http://en.wikipedia.org/wiki/Warsaw'
-          },
-          {
-            type: 'link',
-            text: 'Poland',
-            url: 'http://en.wikipedia.org/wiki/Poland'
-          }
-        ],
-        transit_type: {
+      locale: [
+        {
           type: 'link',
-          text: 'Rapid',
-          url: 'http://en.wikipedia.org/wiki/Rapid transit'
+          text: 'Warsaw',
+          url: 'http://en.wikipedia.org/wiki/Warsaw'
         },
-        map: {
-          type: 'image',
-          text: 'frameless',
-          url: 'http://en.wikipedia.org/wiki/File:Metro w Warszawie linia.svg'
+        {
+          type: 'link',
+          text: 'Poland',
+          url: 'http://en.wikipedia.org/wiki/Poland'
         }
+      ],
+      transit_type: {
+        type: 'link',
+        text: 'Rapid',
+        url: 'http://en.wikipedia.org/wiki/Rapid transit'
+      },
+      map: {
+        type: 'image',
+        text: 'frameless',
+        url: 'http://en.wikipedia.org/wiki/File:Metro w Warszawie linia.svg'
+      },
+      logo: {
+        type: 'image',
+        text: 'Image:Warsaw Metro logo.svg',
+        url: 'http://en.wikipedia.org/wiki/Image:Warsaw Metro logo.svg'
       }
+    }
   );
 });

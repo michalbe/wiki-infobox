@@ -7,5 +7,6 @@ module.exports = helper(
   '|locale           = [[Warsaw]], [[Poland]]' +
   '|transit_type     = [[Rapid transit|Rapid]]' +
   '|map        = [[File:Metro w Warszawie linia.svg|frameless|265px]]' +
+  '|logo        = [[Image:Warsaw Metro logo.svg]]' +
   '|}}'
 );

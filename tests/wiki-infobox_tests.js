@@ -73,3 +73,23 @@ wikiInfobox(page, language, function(err, data) {
     }
   );
 });
+
+// Infobox with multiple links (simple & with aliases) in one field
+initMock(require('./mocks/5.js'));
+wikiInfobox(page, language, function(err, data) {
+  assert.deepEqual(
+    data,
+    { 'languages':
+      [
+        { 'type' : 'link',
+          'text' : 'Official language',
+          'url' : 'http://en.wikipedia.org/wiki/Official language'
+        },
+        { 'type' : 'link',
+          'text':'Polish',
+          'url' : 'http://en.wikipedia.org/wiki/Polish language'
+        }
+      ]
+    }
+  );
+});

@@ -20,8 +20,22 @@ var initMock = function(body) {
   ).reply(200, body);
 };
 
-console.log('Simple infobox with one string field');
+// Simple infobox with one string field
 initMock(require('./mocks/1.js'));
 wikiInfobox('Bemowo','en', function(err, data) {
   assert.deepEqual(data, {name: 'Bemowo'});
+});
+
+// Simple infobox with one link field
+initMock(require('./mocks/2.js'));
+wikiInfobox('Bemowo','en', function(err, data) {
+  assert.deepEqual(
+    data,
+    { 'settlement_type':
+      { 'type' : 'link',
+        'text' : 'Warsaw',
+        'url' : 'http://en.wikipedia.org/wiki/Warsaw'
+      }
+    }
+  );
 });

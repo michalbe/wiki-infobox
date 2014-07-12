@@ -22,13 +22,13 @@ var initMock = function(body) {
 
 // Simple infobox with one string field
 initMock(require('./mocks/1.js'));
-wikiInfobox('Bemowo','en', function(err, data) {
+wikiInfobox(page, language, function(err, data) {
   assert.deepEqual(data, {name: 'Bemowo'});
 });
 
 // Simple infobox with one link field
 initMock(require('./mocks/2.js'));
-wikiInfobox('Bemowo','en', function(err, data) {
+wikiInfobox(page, language, function(err, data) {
   assert.deepEqual(
     data,
     { 'settlement_type':
@@ -42,7 +42,7 @@ wikiInfobox('Bemowo','en', function(err, data) {
 
 // Simple infobox with one link field with alias
 initMock(require('./mocks/3.js'));
-wikiInfobox('Bemowo','en', function(err, data) {
+wikiInfobox(page, language, function(err, data) {
   assert.deepEqual(
     data,
     { 'subdivision_type1' :

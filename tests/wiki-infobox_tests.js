@@ -99,10 +99,10 @@ initMock(require('./mocks/6.js'));
 wikiInfobox(page, language, function(err, data) {
   assert.deepEqual(
     data,
-    { 'settlement_type':
-      { 'type' : 'link',
-        'text' : 'Warsaw',
-        'url' : 'http://en.wikipedia.org/wiki/Warsaw'
+    { 'map':
+      { 'type' : 'image',
+        'text' : 'frameless',
+        'url' : 'http://en.wikipedia.org/wiki/File:Metro w Warszawie linia.svg'
       }
     }
   );

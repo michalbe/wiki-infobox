@@ -93,3 +93,17 @@ wikiInfobox(page, language, function(err, data) {
     }
   );
 });
+
+// Infobox with one image field
+initMock(require('./mocks/6.js'));
+wikiInfobox(page, language, function(err, data) {
+  assert.deepEqual(
+    data,
+    { 'settlement_type':
+      { 'type' : 'link',
+        'text' : 'Warsaw',
+        'url' : 'http://en.wikipedia.org/wiki/Warsaw'
+      }
+    }
+  );
+});

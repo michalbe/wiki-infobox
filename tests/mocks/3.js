@@ -3,6 +3,6 @@ var helper = require('./helper');
 
 module.exports = helper(
   '{{Infobox settlement ' +
-  '| settlement_type         = [[Warsaw|Capital of Poland]]' +
+  '| subdivision_type1       = [[Voivodeships of Poland|Voivodeship]]' +
   '|}}'
 );

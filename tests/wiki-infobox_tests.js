@@ -39,3 +39,17 @@ wikiInfobox('Bemowo','en', function(err, data) {
     }
   );
 });
+
+// Simple infobox with one link field with alias
+initMock(require('./mocks/3.js'));
+wikiInfobox('Bemowo','en', function(err, data) {
+  assert.deepEqual(
+    data,
+    { 'subdivision_type1' :
+      { 'type' : 'link',
+        'text' : 'Voivodeship',
+        'url' : 'http://en.wikipedia.org/wiki/Voivodeships of Poland'
+      }
+    }
+  );
+});

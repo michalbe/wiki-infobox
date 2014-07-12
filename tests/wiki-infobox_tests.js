@@ -53,3 +53,23 @@ wikiInfobox(page, language, function(err, data) {
     }
   );
 });
+
+// Infobox with multiple links in one field
+initMock(require('./mocks/4.js'));
+wikiInfobox(page, language, function(err, data) {
+  assert.deepEqual(
+    data,
+    { 'country':
+      [
+        { 'type' : 'link',
+          'text' : 'Warsaw',
+          'url' : 'http://en.wikipedia.org/wiki/Warsaw'
+        },
+        { 'type' : 'link',
+          'text':'Poland',
+          'url' : 'http://en.wikipedia.org/wiki/Poland'
+        }
+      ]
+    }
+  );
+});

@@ -28,13 +28,13 @@ module.exports = function(page, language, cb, options) {
     //           "*": CONTENT OF THE PAGE
     // ]}}}}
     //
-    // So that is how we will get the content
+    // So this is how we will get the content
     content = content.query.pages;
     var page = Object.keys(content);
     content = content[page].revisions[0]['*'];
 
     // Let's find the beginning of our infobox, it will start with two
-    // mustache brackets (I don't know proper english workd for this),
+    // mustache brackets (I don't know proper English workd for this),
     // unlimited number of spaces and 'infobox' label (can also start with
     // uppercase char).
     var startingPointRegex = /\{\{\s*[Ii]nfobox/;
@@ -44,7 +44,7 @@ module.exports = function(page, language, cb, options) {
     var start = content.match(startingPointRegex).index;
     // And how big is the block. Since we cannot simply match brackets in
     // JS using RegExp, I wrote small `parse` function that iterates throught
-    // the document and counts opened and closed brackets. Dumm as hell but
+    // the document and counts opened and closed brackets. Stupid as hell but
     // works and performance is really good
     var end = parse(content.substr(start, content.length));
 
@@ -53,8 +53,8 @@ module.exports = function(page, language, cb, options) {
 
     // This part is very stupid, but I had no time to figure out something
     // smarter.
-    // Remove all the new lines, data in the infobox is separated with '|'
-    // anyway, so it doesn't change anything.
+    // Remove all the new lines, fields in the infobox are separated with '|'
+    // anyway, so it doesn't change a thing.
     content = content.replace(/\n/g, ' ');
 
     // Now, find all the links ([[IMMA LINK]]) and templates ({{LIKE ME}})
@@ -80,7 +80,7 @@ module.exports = function(page, language, cb, options) {
     var output = {};
     // Iterate thru all the fields of the infobox
     content.forEach(function(element) {
-      // Every field is a key=value pair, separated by equal sign.
+      // Every field is a key=value pair, separated by '='
       var splited = element.split('=');
 
       // Some of them have a lot of white characters what makes no sense at all,
@@ -103,7 +103,7 @@ module.exports = function(page, language, cb, options) {
         );
 
       } catch(e) {
-        // Let's sit quiet, it's probably the thing described above
+        // Let's be quiet here, it's probably the thing described above
       }
 
     });
@@ -114,22 +114,22 @@ module.exports = function(page, language, cb, options) {
   });
 
   var stringToObject = function(name, value) {
-    // We can find a lot of objects in one infobox field, so let's grab all of
-    // them using simple trick with .replace() callback
+    // We can find a lot of objects in one infobox field, so we
+    // Gotta Catch 'Em All using simple trick with .replace() callback
     var matches = [];
     value.replace(/\[\[(.*?)\]\]/g, function(g0,g1){matches.push(g1);});
     if (matches.length > 0) {
       var results = [];
-      var obj = {
-        type: 'link'
-      };
+      var obj;
       matches.forEach(function(matchElement) {
         // If it's an image, set the type to image
         if (
           matchElement.indexOf('File:') > -1 ||
           matchElement.indexOf('Image:') > -1
         ) {
-          obj.type = 'image';
+          obj = {
+            type: 'image'
+          };
         } else {
           // If not, its almost always a link
           obj = {
@@ -137,12 +137,12 @@ module.exports = function(page, language, cb, options) {
           };
         }
 
-        // Sometimes links have names also, I mean, this text that is displayed
-        // on the site and redirect you to the given page, and is different than
+        // Sometimes links have names (aliases) - text that is displayed
+        // on the page and redirects to the given page, and is different than
         // the name of the Wiki page, for instance
         // [[Central European Summer Time|CEST]] will display CEST, but clicking
         // on it will redirect to Central European Summer Time page. We need all
-        // the information in out object
+        // this information in out object
         matchElement = matchElement.split('|');
         if (matchElement.length > 1) {
           obj.text = matchElement[1];

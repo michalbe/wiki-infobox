@@ -107,3 +107,37 @@ wikiInfobox(page, language, function(err, data) {
     }
   );
 });
+
+// Infobox with one text field, multiple links in one field, link with
+// alias & image
+initMock(require('./mocks/7.js'));
+wikiInfobox(page, language, function(err, data) {
+  assert.deepEqual(
+    data,
+    { owner: 'City of Warsaw',
+      locale:
+        [
+          {
+            type: 'link',
+            text: 'Warsaw',
+            url: 'http://en.wikipedia.org/wiki/Warsaw'
+          },
+          {
+            type: 'link',
+            text: 'Poland',
+            url: 'http://en.wikipedia.org/wiki/Poland'
+          }
+        ],
+        transit_type: {
+          type: 'link',
+          text: 'Rapid',
+          url: 'http://en.wikipedia.org/wiki/Rapid transit'
+        },
+        map: {
+          type: 'image',
+          text: 'frameless',
+          url: 'http://en.wikipedia.org/wiki/File:Metro w Warszawie linia.svg'
+        }
+      }
+  );
+});

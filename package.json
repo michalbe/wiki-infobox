@@ -1,6 +1,6 @@
 {
   "name": "wiki-infobox",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Michal Budzynski<michal@virtualdesign.pl>",
   "repository": "https://github.com/michalbe/wiki-infobox",
   "dependencies": {

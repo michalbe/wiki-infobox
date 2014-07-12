@@ -4,7 +4,7 @@ Simple Wikipedia infobox scraper.
 ### What? ###
 WikiInfobox is a simple Wikipedia infobox scraper. What is **infobox**? According to Wikipedia itself, _an infobox template is a panel, usually in the top right of an article, next to the lead section, (in the desktop view) or at the very top of an article (in mobile view), that summarizes key features of the page's subject. Infoboxes may also include an image, and/ or a map._
 
-![Infobox](static/infobox.jpg)
+![Infobox](https://raw.githubusercontent.com/michalbe/wiki-infobox/master/static/infobox.jpg)
 
 ### Why? ###
 * __Question:__ Why do we need WikiInfobox library? Wikipedia has it's own API!

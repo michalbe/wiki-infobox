@@ -125,23 +125,23 @@ module.exports = function(page, language, cb, options) {
     var fullMatches = [];
     var pom = value;
     value.replace(/\[\[(.*?)\]\]/g, function(g0,g1){matches.push(g1);});
-    //After we get every markdown elements from the string we should check if
-    //between them there is some text
+    // After we get every markdown element from the string we are looking for
+    // unmatched text in between
     matches.forEach(function(entry){
-        //for every match we split string for two parts and in pom[0] we will
-        //have clean text
+        // For every match we split string in two so only pure text will left
+        //in pom[0]
         pom = pom.split('[['+entry+']]');
-      //chceck if clean text is something more than a white space && and
-      //something more than , . :
+      // Is our clean text something more meaningful than white spaces or any
+      // of those: <, . :>
       if(pom[0].match(/\S/) && pom[0].match(/^\s*[\.\,\:]*\s$/) === null) {
-        //if it is some text we make object ready to deploy
+        // If it is we are good
         fullMatches.push({type: 'text', value: pom[0]});
       }
         fullMatches.push(entry);
         //only second part of split is going to analise
         pom = pom[1];
     });
-    //we have to chceck the string that still exist after foreach
+    // Now let's take care of the string that left after foreach
     if(pom.match(/\S/) && pom.match(/^\s*[\.\,\:]*\s$/) === null) {
       fullMatches.push({type: 'text', value: pom});
     }
@@ -169,8 +169,8 @@ module.exports = function(page, language, cb, options) {
           // on the page and redirects to the given page, and is different than
           // the name of the Wiki page, for instance
           // [[Central European Summer Time|CEST]] will display CEST,
-          //but clicking on it will redirect to Central European Summer
-          //Time page. We need all this information in out object
+          // but clicking on it will redirect to Central European Summer
+          // Time page. We need all this information in out object
           matchElement = matchElement.split('|');
           if (matchElement.length > 1) {
             obj.text = matchElement[1];
@@ -185,7 +185,7 @@ module.exports = function(page, language, cb, options) {
         }
       });
 
-      // sometimes field is just a text, without any fireworks :(
+      // Sometimes field is just a text, without any fireworks :(
       if (results.length === 1) {
         results = results.pop();
       }

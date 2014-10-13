@@ -2,6 +2,9 @@
   "name": "wiki-infobox",
   "version": "0.2.0",
   "author": "Michal Budzynski<michal@virtualdesign.pl>",
+  "contributors": [
+    "Wojtek Wozniak <wwozniak92@gmail.com>"
+  ],
   "repository": "https://github.com/michalbe/wiki-infobox",
   "dependencies": {
     "request": "~2.36.0",

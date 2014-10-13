@@ -77,11 +77,16 @@ infobox(page, language, function(err, data){
 });
 ```
 
+### What's new? ###
+
+* 18 Nov 2014 __v.0.3.1__
+  * Support of multiple types of data in the same field, like text & links & images, etc.
+  * Simple text is now returned as an object with two fields, `type` equal to `text` and `value` equal to the value fo the text node
+
 ### To Do ###
 Support of:
 * external links (like `{{url|www.metro.waw.pl|Metro Warszawskie}}`)
 * templates (like `{{flag|Poland}}`)
-* text & links or text & image in the same field
 * comments
 * somehow tidy HTML code inside fields
 * expressions (like `{{ 3434 + 19817934 + 213123 }}`)

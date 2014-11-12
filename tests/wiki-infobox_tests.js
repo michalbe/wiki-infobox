@@ -145,3 +145,9 @@ wikiInfobox(page, language, function(err, data) {
     }
   );
 });
+
+// Test without infobox
+initMock(require('./mocks/8.js'));
+wikiInfobox(page, language, function(err, data) {
+  assert.deepEqual(err.message, 'No infobox found!');
+});

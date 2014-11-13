@@ -41,7 +41,12 @@ module.exports = function(page, language, cb, options) {
 
     // What is the position of the string we are looking for
     // in the whole document?
-    var start = content.match(startingPointRegex).index;
+    var startArray  =  content.match(startingPointRegex);
+    if(!startArray) {
+      cb(new Error('No infobox found!'));
+      return;
+    }
+    var start = startArray.index;
     // And how big is the block. Since we cannot simply match brackets in
     // JS using RegExp, I wrote small `parse` function that iterates throught
     // the document and counts opened and closed brackets. Stupid as hell but

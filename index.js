@@ -122,8 +122,16 @@ module.exports = function(page, language, cb, options) {
     // We can find a lot of objects in one infobox field, so we
     // Gotta Catch 'Em All using simple trick with .replace() callback
     var matches = [];
+    var fullMatches=[];
+    var pom=value;
     value.replace(/\[\[(.*?)\]\]/g, function(g0,g1){matches.push(g1);});
-    if (matches.length > 0) {
+    matches.forEach(function(entry){
+        pom=pom.split(entry);
+        fullMatches.push(pom[0]);
+        fullMatches.push(entry);
+        pom=pom[1];
+    });
+    if (fullMatches.length > 0) {
       var results = [];
       var obj;
       matches.forEach(function(matchElement) {
@@ -163,10 +171,10 @@ module.exports = function(page, language, cb, options) {
       if (results.length === 1) {
         results = results.pop();
       }
-      return results;
+      return {type:'text', value:results};
 
     } else {
-      return value;
+      return {type:'text', value:value};
     }
   };
 

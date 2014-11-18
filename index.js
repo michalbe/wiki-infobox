@@ -126,52 +126,59 @@ module.exports = function(page, language, cb, options) {
     var pom=value;
     value.replace(/\[\[(.*?)\]\]/g, function(g0,g1){matches.push(g1);});
     matches.forEach(function(entry){
-        pom=pom.split(entry);
-        fullMatches.push(pom[0]);
+        pom=pom.split("[["+entry+"]]");
+      if(pom[0].match(/\S/) && pom[0].match(/^\s*[\.\,\:]*\s$/)==null) {
+        fullMatches.push({type: 'text', value: pom[0]});
+      }
         fullMatches.push(entry);
         pom=pom[1];
     });
     if (fullMatches.length > 0) {
       var results = [];
       var obj;
-      matches.forEach(function(matchElement) {
+      fullMatches.forEach(function(matchElement) {
         // If it's an image, set the type to image
-        if (
-          matchElement.indexOf('File:') > -1 ||
-          matchElement.indexOf('Image:') > -1
-        ) {
-          obj = {
-            type: 'image'
-          };
-        } else {
-          // If not, its almost always a link
-          obj = {
-            type: 'link'
-          };
-        }
+        if(typeof(matchElement)!='object')
+        {
+          if (
+            matchElement.indexOf('File:') > -1 ||
+            matchElement.indexOf('Image:') > -1
+          ) {
+            obj = {
+              type: 'image'
+            };
+          } else {
+            // If not, its almost always a link
+            obj = {
+              type: 'link'
+            };
+          }
 
-        // Sometimes links have names (aliases) - text that is displayed
-        // on the page and redirects to the given page, and is different than
-        // the name of the Wiki page, for instance
-        // [[Central European Summer Time|CEST]] will display CEST, but clicking
-        // on it will redirect to Central European Summer Time page. We need all
-        // this information in out object
-        matchElement = matchElement.split('|');
-        if (matchElement.length > 1) {
-          obj.text = matchElement[1];
-          obj.url = wikiURL + matchElement[0];
+          // Sometimes links have names (aliases) - text that is displayed
+          // on the page and redirects to the given page, and is different than
+          // the name of the Wiki page, for instance
+          // [[Central European Summer Time|CEST]] will display CEST, but clicking
+          // on it will redirect to Central European Summer Time page. We need all
+          // this information in out object
+          matchElement = matchElement.split('|');
+          if (matchElement.length > 1) {
+            obj.text = matchElement[1];
+            obj.url = wikiURL + matchElement[0];
+          } else {
+            obj.text = matchElement[0];
+            obj.url = wikiURL + matchElement[0];
+          }
+          results.push(obj);
         } else {
-          obj.text = matchElement[0];
-          obj.url = wikiURL + matchElement[0];
+          results.push(matchElement);
         }
-        results.push(obj);
       });
 
       // sometimes field is just a text, without any fireworks :(
       if (results.length === 1) {
         results = results.pop();
       }
-      return {type:'text', value:results};
+      return results;
 
     } else {
       return {type:'text', value:value};

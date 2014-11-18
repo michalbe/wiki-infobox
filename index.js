@@ -150,8 +150,7 @@ module.exports = function(page, language, cb, options) {
       var obj;
       fullMatches.forEach(function(matchElement) {
         // If it's an image, set the type to image
-        if(typeof(matchElement)!='object')
-        {
+        if(typeof(matchElement)!='object') {
           if (
             matchElement.indexOf('File:') > -1 ||
             matchElement.indexOf('Image:') > -1

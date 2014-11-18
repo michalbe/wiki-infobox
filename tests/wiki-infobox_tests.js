@@ -159,12 +159,13 @@ wikiInfobox(page, language, function(err, data) {
 //Test with texts mixed with objects
 initMock(require('./mocks/9.js'));
 wikiInfobox(page, language, function(err, data) {
-  assert.deepEqual(data, {"num_episodes":[{ type: 'text', value: '139 (' },
+  assert.deepEqual(data, {'num_episodes':[{ type: 'text', value: '139 (' },
   { type: 'link',
     text: 'List of episodes',
     url: 'http://en.wikipedia.org/wiki/List of MacGyver episodes' },
   { type: 'text', value: ')<br />2 TV ' },
   { type: 'link',
     text: 'films',
-    url: 'http://en.wikipedia.org/wiki/List of MacGyver episodes#TV Movies' }]});
+    url: 'http://en.wikipedia.org/wiki/List of MacGyver episodes#TV Movies'
+    }]});
 });

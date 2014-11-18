@@ -130,7 +130,7 @@ module.exports = function(page, language, cb, options) {
     matches.forEach(function(entry){
         //for every match we split string for two parts and in pom[0] we will
         //have clena text
-        pom = pom.split("[["+entry+"]]");
+        pom = pom.split('[['+entry+']]');
       //chceck if clean text is something more than a white space && and
       //something more than , . :
       if(pom[0].match(/\S/) && pom[0].match(/^\s*[\.\,\:]*\s$/)===null) {
@@ -169,8 +169,9 @@ module.exports = function(page, language, cb, options) {
           // Sometimes links have names (aliases) - text that is displayed
           // on the page and redirects to the given page, and is different than
           // the name of the Wiki page, for instance
-          // [[Central European Summer Time|CEST]] will display CEST, but clicking
-          // on it will redirect to Central European Summer Time page. We need all
+          // [[Central European Summer Time|CEST]] will display CEST,
+          //but clicking on it will redirect to Central European Summer
+          //Time page. We need all
           // this information in out object
           matchElement = matchElement.split('|');
           if (matchElement.length > 1) {

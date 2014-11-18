@@ -122,17 +122,26 @@ module.exports = function(page, language, cb, options) {
     // We can find a lot of objects in one infobox field, so we
     // Gotta Catch 'Em All using simple trick with .replace() callback
     var matches = [];
-    var fullMatches=[];
-    var pom=value;
+    var fullMatches = [];
+    var pom = value;
     value.replace(/\[\[(.*?)\]\]/g, function(g0,g1){matches.push(g1);});
+    //After we get every markdown elements from the string we should chcek if
+    //between them there is some text
     matches.forEach(function(entry){
-        pom=pom.split("[["+entry+"]]");
-      if(pom[0].match(/\S/) && pom[0].match(/^\s*[\.\,\:]*\s$/)==null) {
+        //for every match we split string for two parts and in pom[0] we will
+        //have clena text
+        pom = pom.split("[["+entry+"]]");
+      //chceck if clean text is something more than a white space && and
+      //something more than , . :
+      if(pom[0].match(/\S/) && pom[0].match(/^\s*[\.\,\:]*\s$/)===null) {
+        //if it is some text we make object ready to deploy
         fullMatches.push({type: 'text', value: pom[0]});
       }
         fullMatches.push(entry);
+        //only second part of split is going to analise
         pom=pom[1];
     });
+    //we have to chceck the string that still exist after foreach
     if(pom.match(/\S/) && pom.match(/^\s*[\.\,\:]*\s$/)==null) {
       fullMatches.push({type: 'text', value: pom});
     }

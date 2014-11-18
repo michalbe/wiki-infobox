@@ -23,7 +23,7 @@ var initMock = function(body) {
 // Simple infobox with one string field
 initMock(require('./mocks/1.js'));
 wikiInfobox(page, language, function(err, data) {
-  assert.deepEqual(data, {name: 'Bemowo'});
+  assert.deepEqual(data, {name: {type:'text',value:'Bemowo'}});
 });
 
 // Simple infobox with one link field
@@ -114,7 +114,11 @@ initMock(require('./mocks/7.js'));
 wikiInfobox(page, language, function(err, data) {
   assert.deepEqual(
     data,
-    { owner: 'City of Warsaw',
+    { owner:
+      {
+        type: 'text',
+        value: 'City of Warsaw'
+      },
       locale: [
         {
           type: 'link',
@@ -150,4 +154,18 @@ wikiInfobox(page, language, function(err, data) {
 initMock(require('./mocks/8.js'));
 wikiInfobox(page, language, function(err, data) {
   assert.deepEqual(err.message, 'No infobox found!');
+});
+
+//Test with texts mixed with objects
+initMock(require('./mocks/9.js'));
+wikiInfobox(page, language, function(err, data) {
+  assert.deepEqual(data, {'num_episodes':[{ type: 'text', value: '139 (' },
+  { type: 'link',
+    text: 'List of episodes',
+    url: 'http://en.wikipedia.org/wiki/List of MacGyver episodes' },
+  { type: 'text', value: ')<br />2 TV ' },
+  { type: 'link',
+    text: 'films',
+    url: 'http://en.wikipedia.org/wiki/List of MacGyver episodes#TV Movies'
+    }]});
 });

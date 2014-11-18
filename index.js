@@ -122,41 +122,67 @@ module.exports = function(page, language, cb, options) {
     // We can find a lot of objects in one infobox field, so we
     // Gotta Catch 'Em All using simple trick with .replace() callback
     var matches = [];
+    var fullMatches = [];
+    var pom = value;
     value.replace(/\[\[(.*?)\]\]/g, function(g0,g1){matches.push(g1);});
-    if (matches.length > 0) {
+    //After we get every markdown elements from the string we should check if
+    //between them there is some text
+    matches.forEach(function(entry){
+        //for every match we split string for two parts and in pom[0] we will
+        //have clean text
+        pom = pom.split('[['+entry+']]');
+      //chceck if clean text is something more than a white space && and
+      //something more than , . :
+      if(pom[0].match(/\S/) && pom[0].match(/^\s*[\.\,\:]*\s$/) === null) {
+        //if it is some text we make object ready to deploy
+        fullMatches.push({type: 'text', value: pom[0]});
+      }
+        fullMatches.push(entry);
+        //only second part of split is going to analise
+        pom = pom[1];
+    });
+    //we have to chceck the string that still exist after foreach
+    if(pom.match(/\S/) && pom.match(/^\s*[\.\,\:]*\s$/) === null) {
+      fullMatches.push({type: 'text', value: pom});
+    }
+    if (fullMatches.length > 0) {
       var results = [];
       var obj;
-      matches.forEach(function(matchElement) {
+      fullMatches.forEach(function(matchElement) {
         // If it's an image, set the type to image
-        if (
-          matchElement.indexOf('File:') > -1 ||
-          matchElement.indexOf('Image:') > -1
-        ) {
-          obj = {
-            type: 'image'
-          };
-        } else {
-          // If not, its almost always a link
-          obj = {
-            type: 'link'
-          };
-        }
+        if(typeof(matchElement)!='object') {
+          if (
+            matchElement.indexOf('File:') > -1 ||
+            matchElement.indexOf('Image:') > -1
+          ) {
+            obj = {
+              type: 'image'
+            };
+          } else {
+            // If not, its almost always a link
+            obj = {
+              type: 'link'
+            };
+          }
 
-        // Sometimes links have names (aliases) - text that is displayed
-        // on the page and redirects to the given page, and is different than
-        // the name of the Wiki page, for instance
-        // [[Central European Summer Time|CEST]] will display CEST, but clicking
-        // on it will redirect to Central European Summer Time page. We need all
-        // this information in out object
-        matchElement = matchElement.split('|');
-        if (matchElement.length > 1) {
-          obj.text = matchElement[1];
-          obj.url = wikiURL + matchElement[0];
+          // Sometimes links have names (aliases) - text that is displayed
+          // on the page and redirects to the given page, and is different than
+          // the name of the Wiki page, for instance
+          // [[Central European Summer Time|CEST]] will display CEST,
+          //but clicking on it will redirect to Central European Summer
+          //Time page. We need all this information in out object
+          matchElement = matchElement.split('|');
+          if (matchElement.length > 1) {
+            obj.text = matchElement[1];
+            obj.url = wikiURL + matchElement[0];
+          } else {
+            obj.text = matchElement[0];
+            obj.url = wikiURL + matchElement[0];
+          }
+          results.push(obj);
         } else {
-          obj.text = matchElement[0];
-          obj.url = wikiURL + matchElement[0];
+          results.push(matchElement);
         }
-        results.push(obj);
       });
 
       // sometimes field is just a text, without any fireworks :(
@@ -166,7 +192,7 @@ module.exports = function(page, language, cb, options) {
       return results;
 
     } else {
-      return value;
+      return {type:'text', value:value};
     }
   };
 

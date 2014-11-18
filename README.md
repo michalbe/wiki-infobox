@@ -32,8 +32,16 @@ infobox(page, language, function(err, data){
   console.log(data);
   // {
   //   box_length: '275px',
-  //   name: 'Warsaw Metro<br>\'\'Metro Warszawskie\'\'',
-  //   owner: 'City of Warsaw',
+  //   name:
+  //     {
+  //       type: 'text',
+  //       value: 'Warsaw Metro<br>\'\'Metro Warszawskie\'\''
+  //     },
+  //   owner:
+  //    {
+  //      type: 'text',
+  //      value: 'City of Warsaw'
+  //    },
   //   locale:
   //    [ { type: 'link',
   //        text: 'Warsaw',
@@ -86,7 +94,7 @@ If you are interested in contributing:
 ```bash
 #clone the repo
 $ git clone git@github.com:michalbe/wiki-infobox.git
-$ cd wiki-infobot
+$ cd wiki-infobox
 
 #install all the dependencies
 $ npm install

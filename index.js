@@ -133,6 +133,9 @@ module.exports = function(page, language, cb, options) {
         fullMatches.push(entry);
         pom=pom[1];
     });
+    if(pom.match(/\S/) && pom.match(/^\s*[\.\,\:]*\s$/)==null) {
+      fullMatches.push({type: 'text', value: pom});
+    }
     if (fullMatches.length > 0) {
       var results = [];
       var obj;

@@ -81,7 +81,8 @@ infobox(page, language, function(err, data){
 
 * 23 Nov 2014 __v.0.4.0__
   * Return error when page is not proper Wikipedia page with data
-  * Wiki redirect page support
+  * When wikipage we are asking for is a redirect page then return results from the final page
+  * Support proper character encoding in the page title (so pages with special characters work without any problems now)
 
 * 18 Nov 2014 __v.0.3.1__
   * Support of multiple types of data in the same field, like text & links & images, etc.

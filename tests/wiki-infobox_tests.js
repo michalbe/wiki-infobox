@@ -7,6 +7,7 @@ var assert = require('assert');
 
 var language = 'en';
 var page = 'Bemowo';
+var oldPage;
 
 var initMock = function(body) {
   nock('http://'+ language + '.wikipedia.org')
@@ -186,8 +187,16 @@ wikiInfobox(page, language, function(err, data) {
 });
 
 //Test special chars in the title
+oldPage = page;
 page='Franklin & Bash';
 initMock(require('./mocks/10.js'));
 wikiInfobox(page, language, function(err, data) {
   assert.deepEqual(data, {name: {type:'text',value:'Franklin & Bash'}});
+});
+page = oldPage;
+
+initMock(require('./mocks/11.js'));
+wikiInfobox(page, language, function(err, data) {
+  assert.ok(err);
+  assert.equal(data, undefined);
 });

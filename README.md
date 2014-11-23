@@ -79,7 +79,7 @@ infobox(page, language, function(err, data){
 
 ### What's new? ###
 
-* 23 Nov 2014 __v.0.3.2__
+* 23 Nov 2014 __v.0.3.3__
   * Return error when page is not proper Wikipedia page with data (redirect page, etc).
   * Capitalize page titles ('the big bang theory -> The Big Bang Theory')
 

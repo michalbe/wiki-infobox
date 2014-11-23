@@ -201,9 +201,3 @@ wikiInfobox(page, language, function(err, data) {
   assert.ok(err);
   assert.equal(data, undefined);
 });
-
-// Title is not capitalized (like 'bemowo' instead of 'Bemowo')
-initMock(require('./mocks/1.js'));
-wikiInfobox(page.toLowerCase(), language, function(err, data) {
-  assert.deepEqual(data, {name: {type:'text',value:'Bemowo'}});
-});

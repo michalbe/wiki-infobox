@@ -1,18 +1,12 @@
 'use strict';
 
 var separator = require('simple-random-id')();
-var capitalize = function (str) {
-  return str.replace(/\w\S*/g, function(txt) {
-      return txt.charAt(0).toUpperCase() + txt.substr(1);
-  });
-};
+var request = require('request');
 
-module.exports = function(page, language, cb, options) {
-
-  var request = (options && options.request) || require('request');
+var WikiInfobox = function(page, language, cb) {
   var apiURL = 'http://'+ language + '.wikipedia.org/w/api.php?format' +
                '=json&action=query&prop=revisions&rvprop=content&titles=' +
-               encodeURIComponent(capitalize(page));
+               encodeURIComponent(page);
 
   var wikiURL = 'http://' + language +'.wikipedia.org/wiki/';
 
@@ -44,8 +38,14 @@ module.exports = function(page, language, cb, options) {
       return;
     }
 
+    // Redirect if needed
+    if (content.indexOf('#REDIRECT') > -1) {
+      var redirectToPageNamed = content.match(/\[\[(.+?)\]\]/)[1];
+      WikiInfobox(redirectToPageNamed, language, cb);
+      return;
+    }
     // Let's find the beginning of our infobox, it will start with two
-    // mustache brackets (I don't know proper English workd for this),
+    // mustache brackets (I don't know proper English word for this),
     // unlimited number of spaces and 'infobox' label (can also start with
     // uppercase char).
     var startingPointRegex = /\{\{\s*[Ii]nfobox/;
@@ -135,12 +135,12 @@ module.exports = function(page, language, cb, options) {
     var matches = [];
     var fullMatches = [];
     var pom = value;
-    value.replace(/\[\[(.*?)\]\]/g, function(g0,g1){matches.push(g1);});
+    value.replace(/\[\[(.*?)\]\]/g, function(g0,g1){ matches.push(g1); });
     // After we get every markdown element from the string we are looking for
     // unmatched text in between
-    matches.forEach(function(entry){
+    matches.forEach(function(entry) {
         // For every match we split string in two so only pure text will left
-        //in pom[0]
+        // in pom[0]
         pom = pom.split('[['+entry+']]');
       // Is our clean text something more meaningful than white spaces or any
       // of those: <, . :>
@@ -152,6 +152,7 @@ module.exports = function(page, language, cb, options) {
         //only second part of split is going to analise
         pom = pom[1];
     });
+
     // Now let's take care of the string that left after foreach
     if(pom.match(/\S/) && pom.match(/^\s*[\.\,\:]*\s$/) === null) {
       fullMatches.push({type: 'text', value: pom});
@@ -224,3 +225,6 @@ module.exports = function(page, language, cb, options) {
     }
   };
 };
+
+
+module.exports = WikiInfobox;

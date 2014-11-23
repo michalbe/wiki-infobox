@@ -1,12 +1,18 @@
 'use strict';
 
 var separator = require('simple-random-id')();
+var capitalize = function (str) {
+  return str.replace(/\w\S*/g, function(txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
+};
 
 module.exports = function(page, language, cb, options) {
+
   var request = (options && options.request) || require('request');
   var apiURL = 'http://'+ language + '.wikipedia.org/w/api.php?format' +
                '=json&action=query&prop=revisions&rvprop=content&titles=' +
-               encodeURIComponent(page);
+               encodeURIComponent(capitalize(page));
 
   var wikiURL = 'http://' + language +'.wikipedia.org/wiki/';
 

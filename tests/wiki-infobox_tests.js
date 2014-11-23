@@ -186,7 +186,7 @@ wikiInfobox(page, language, function(err, data) {
   );
 });
 
-//Test special chars in the title
+// Test special chars in the title
 oldPage = page;
 page='Franklin & Bash';
 initMock(require('./mocks/10.js'));
@@ -195,8 +195,15 @@ wikiInfobox(page, language, function(err, data) {
 });
 page = oldPage;
 
+// Pages that are not proper Wikipedia pages
 initMock(require('./mocks/11.js'));
 wikiInfobox(page, language, function(err, data) {
   assert.ok(err);
   assert.equal(data, undefined);
+});
+
+// Title is not capitalized (like 'bemowo' instead of 'Bemowo')
+initMock(require('./mocks/1.js'));
+wikiInfobox(page.toLowerCase(), language, function(err, data) {
+  assert.deepEqual(data, {name: {type:'text',value:'Bemowo'}});
 });

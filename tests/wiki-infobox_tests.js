@@ -16,7 +16,7 @@ var initMock = function(body) {
     'action=query&' +
     'prop=revisions&' +
     'rvprop=content&' +
-    'titles='+page
+    'titles='+encodeURIComponent(page)
   ).reply(200, body);
 };
 
@@ -183,4 +183,11 @@ wikiInfobox(page, language, function(err, data) {
       }]
     }
   );
+});
+
+//Test special chars in the title
+page='Franklin & Bash';
+initMock(require('./mocks/10.js'));
+wikiInfobox(page, language, function(err, data) {
+  assert.deepEqual(data, {name: {type:'text',value:'Franklin & Bash'}});
 });

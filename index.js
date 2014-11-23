@@ -29,9 +29,14 @@ module.exports = function(page, language, cb, options) {
     // ]}}}}
     //
     // So this is how we will get the content
-    content = content.query.pages;
-    var page = Object.keys(content);
-    content = content[page].revisions[0]['*'];
+    try {
+      content = content.query.pages;
+      var page = Object.keys(content);
+      content = content[page].revisions[0]['*'];
+    } catch(e) {
+      cb(e);
+      return;
+    }
 
     // Let's find the beginning of our infobox, it will start with two
     // mustache brackets (I don't know proper English workd for this),

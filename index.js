@@ -1,12 +1,18 @@
 'use strict';
 
 var separator = require('simple-random-id')();
+var capitalize = function (str) {
+  return str.replace(/\w\S*/g, function(txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
+};
 
 module.exports = function(page, language, cb, options) {
+
   var request = (options && options.request) || require('request');
   var apiURL = 'http://'+ language + '.wikipedia.org/w/api.php?format' +
                '=json&action=query&prop=revisions&rvprop=content&titles=' +
-               encodeURIComponent(page);
+               encodeURIComponent(capitalize(page));
 
   var wikiURL = 'http://' + language +'.wikipedia.org/wiki/';
 
@@ -29,9 +35,14 @@ module.exports = function(page, language, cb, options) {
     // ]}}}}
     //
     // So this is how we will get the content
-    content = content.query.pages;
-    var page = Object.keys(content);
-    content = content[page].revisions[0]['*'];
+    try {
+      content = content.query.pages;
+      var page = Object.keys(content);
+      content = content[page].revisions[0]['*'];
+    } catch(e) {
+      cb(e);
+      return;
+    }
 
     // Let's find the beginning of our infobox, it will start with two
     // mustache brackets (I don't know proper English workd for this),

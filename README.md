@@ -79,9 +79,10 @@ infobox(page, language, function(err, data){
 
 ### What's new? ###
 
-* 23 Nov 2014 __v.0.3.2__
-  * Return error when page is not proper Wikipedia page with data (redirect page, etc).
-  * Capitalize page titles ('the big bang theory -> The Big Bang Theory')
+* 23 Nov 2014 __v.0.4.0__
+  * Return error when page is not proper Wikipedia page with data
+  * When wikipage we are asking for is a redirect page then return results from the final page
+  * Support proper character encoding in the page title (so pages with special characters work without any problems now)
 
 * 18 Nov 2014 __v.0.3.1__
   * Support of multiple types of data in the same field, like text & links & images, etc.

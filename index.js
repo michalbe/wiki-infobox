@@ -6,7 +6,7 @@ module.exports = function(page, language, cb, options) {
   var request = (options && options.request) || require('request');
   var apiURL = 'http://'+ language + '.wikipedia.org/w/api.php?format' +
                '=json&action=query&prop=revisions&rvprop=content&titles=' +
-               page;
+               encodeURIComponent(page);
 
   var wikiURL = 'http://' + language +'.wikipedia.org/wiki/';
 

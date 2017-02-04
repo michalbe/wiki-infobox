@@ -39,7 +39,7 @@ var WikiInfobox = function(page, language, cb) {
     }
 
     // Redirect if needed
-    if (content.indexOf('#REDIRECT') > -1) {
+    if (content.toLowerCase().indexOf('#redirect') > -1) {
       var redirectToPageNamed = content.match(/\[\[(.+?)\]\]/)[1];
       WikiInfobox(redirectToPageNamed, language, cb);
       return;
